@@ -36,7 +36,7 @@ typedef struct {
 
 //INICIALIA LISTA
 void initLista(LSLTrp *l){
-	l->cabeca == NULL;
+	l->cabeca = NULL;
 }
 
 //FUNCAO VAZIA
@@ -50,13 +50,12 @@ int vazia(LSLTrp *l){
 //QUANTIDADE
 int quantidade(LSLTrp *l){
 	int i = 0;
-
-	No *aux = (No*)malloc(sizeof(No));
-	aux = l->cabeca;
+	No *aux = l->cabeca;
 	
 	while(aux != NULL){
-		aux = aux->prox;
 		i++;
+		aux = aux->prox;
+		
 	}
 	
 	return i;
@@ -219,8 +218,7 @@ void show_transporte(LSLTrp *l){
 		return;
 	}
 	
-	No *aux = (No*)malloc(sizeof(No));
-	aux = l->cabeca;
+	No *aux = l->cabeca;
 	while(aux->prox != NULL){
 		aux = aux->prox;
 		
