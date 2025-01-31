@@ -21,14 +21,14 @@ typedef struct transporte{
 	//Terminal Destino;
 }Transporte;
 
-//NÓ DA LISTA
+//Nï¿½ DA LISTA
 typedef struct lt{
 	Transporte t;
 	struct lt *prox; 
 }No;
 
 
-//NÓ CABEÇA
+//Nï¿½ CABEï¿½A
 typedef struct {
 	No *cabeca;
 }LSLTrp;
@@ -42,7 +42,7 @@ void initLista(LSLTrp *l){
 //FUNCAO VAZIA
 int vazia(LSLTrp *l){
 	if(l->cabeca == NULL){
-		printf("A lista está vazia !\n");
+		printf("A lista estï¿½ vazia !\n");
 		return 1;
 	}
 }
@@ -69,7 +69,7 @@ void limpar_tela(){
 
 
 
-//VALIDAÇÕES  
+//VALIDAï¿½ï¿½ES  
 //VALIDAR TIPOS DE TRANSPORTES
 int validar_tipo(Transporte *t){	
 
@@ -111,18 +111,20 @@ int validar_estado(Transporte *t){
 
 //CRIAR ARQUIVO TRANSPORTE
 void file_transporte(Transporte *t){
-	
+	//Caminho do arquivo
 	DIR caminho = ".\\Arquivos\\Transportes\\";
+	//Prefixo do nome do arquivo
 	DIR n = "Transporte_";
+	//Vai armazenar a string com o prefixo, caminho e id do transporte
 	DIR nome_arquivo;
-	
+	//Responsavel por formatar a string
 	sprintf(nome_arquivo, "%s%s[0%d].txt", caminho, n, t->id);
-	
+	//Tipo file para criar o documento em modo de escrita
 	FILE *arquivo = fopen(nome_arquivo, "w");
 	if(arquivo == NULL){
 		printf("Erro ao abrir o arquivo !\n");
 	}
-		
+	//Comeï¿½a a escrita do documento	
 	printf("\n\n");
 	fprintf(arquivo, "ID [0%d]\n", t->id);
 	fprintf(arquivo, "TIPO: %s\n", t->Tipo);
@@ -132,6 +134,7 @@ void file_transporte(Transporte *t){
 	fprintf(arquivo, "TERMINAL DE CHEGADA: %s\n", t->Destino);
 	
 	printf("Arquivo de Texto criado com sucesso.");
+	//Encerra do documento
 	fclose(arquivo);
 	return;
 	
@@ -139,39 +142,39 @@ void file_transporte(Transporte *t){
 
 //CRIAR TRANSPORTE 
 int criar_Transporte (Transporte *t){
-	
+	//Rotina para o tipo de transporte
 	T:	
 	printf("Tipo de Transporte: ");
 	scanf("%[^\n]s", t->Tipo);
 	getchar();
-	
+	//Caso seja invalido volta pra rotina
 	if(validar_tipo(t) == 0){
-		printf("Transporte inválido!\n");
-		printf("Transportes disponivéis:");
+		printf("Transporte invï¿½lido!\n");
+		printf("Transportes disponivï¿½is:");
 		printf("\n  -[Barco]\n  -[Comboio]\n  -[Caminhao]\n");
 		goto T;
 	}
-		
+	//Rotina para o estado do transporte	
 	E:
 	printf("Estado: ");
 	scanf("%[^\n]s", t->Estado);
 	getchar();
-	
+	//Caso seja invalido volta pra rotina
 	if(validar_estado(t) == 0){
-		printf("Estado inválido!\n");
-		printf("Estados disponivéis:\n");
+		printf("Estado invï¿½lido!\n");
+		printf("Estados disponivï¿½is:\n");
 		printf("\n  -[Aguardando]\n  -[Carregando]\n  -[Retirando]\n");
 		goto E;
 	}
-	
+	//Inserimos o terminal
 	printf("Terminal de Partida: ");
 	scanf("%[^\n]s", t->Origem);
 	getchar();
-	
+	//Inserimos o terminal
 	printf("Terminal de Chegada: ");
 	scanf("%[^\n]s", t->Destino);
 	getchar();
-
+     //Manda pro ficheiro
 	file_transporte(t);
 	
 	return 1;		
@@ -192,7 +195,7 @@ No* criar_No(LSLTrp *l){
 }
 
 
-//FUNÇÕES PARA MOSTRAR
+//FUNï¿½ï¿½ES PARA MOSTRAR
 //MOSTRAR MENU
 void Menu(){
 	printf("\n");
@@ -251,7 +254,7 @@ void busca(LSLTrp *l, int id){
 		
 	
 	if(id < 0 || id > qtd){
-		printf("\nPosição inválida.\n");
+		printf("\nPosiï¿½ï¿½o invï¿½lida.\n");
 		sleep(2);
 		limpar_tela();
 		return ;
