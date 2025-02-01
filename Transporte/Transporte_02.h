@@ -119,12 +119,12 @@ void file_transporte(Transporte *t){
 	DIR nome_arquivo;
 	//Responsavel por formatar a string
 	sprintf(nome_arquivo, "%s%s[0%d].txt", caminho, n, t->id);
-	//Tipo file para criar o documento em modo de escrita
-	FILE *arquivo = fopen(nome_arquivo, "w");
+	//Tipo file para criar o documento em modo de escrita e adiciona na ultima linha
+	FILE *arquivo = fopen(nome_arquivo, "a+");
 	if(arquivo == NULL){
 		printf("Erro ao abrir o arquivo !\n");
 	}
-	//Come�a a escrita do documento	
+	//Começa a escrita do documento	
 	printf("\n\n");
 	fprintf(arquivo, "ID [0%d]\n", t->id);
 	fprintf(arquivo, "TIPO: %s\n", t->Tipo);

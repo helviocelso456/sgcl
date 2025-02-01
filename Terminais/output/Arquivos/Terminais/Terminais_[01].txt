@@ -1,0 +1,8 @@
+ID [01]
+TIPO: Moxico
+CAPACIDADE MAXIMA: 200 TONELADAS
+Número de Cargas Atuais: 100
+ID [01]
+TIPO: Moxico
+CAPACIDADE MAXIMA: 200 TONELADAS
+Número de Cargas Atuais: 100
