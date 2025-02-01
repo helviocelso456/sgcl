@@ -1,0 +1,1 @@
+Id: 00 | Tipo: Barco | Cap_Max: 20000 | Estado:  | Terminal de Origem: Benguela | Terminal de Destino: Moxico
