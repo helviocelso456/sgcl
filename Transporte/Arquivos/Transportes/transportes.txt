@@ -1,0 +1,2 @@
+Id: 01 | Tipo: Barco | Cap_Max: 20000 | Estado: Aguardando | Terminal de Origem: Luanda | Terminal de Destino: Moxico
+Id: 02 | Tipo: Comboio | Cap_Max: 20000 | Estado: Aguardando | Terminal de Origem: Cabinda | Terminal de Destino: Cunene

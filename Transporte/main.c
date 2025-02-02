@@ -1,4 +1,4 @@
-#include "Transporte_02.h"
+#include "Transporte.h"
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
@@ -25,11 +25,12 @@ int main(){
 				break;
 		
 			case '2':
-				show_transporte(&l);
+				show_t();
 				break;
 				
 			case '3':
-				if(l.cabeca == NULL){
+				//Verifica se o arquivo txt está ou não vazio
+				if(quantidade()==0){
 					printf("Nenhum transporte cadastrado !\n");
 					sleep(2);
 					limpar_tela();
@@ -37,10 +38,10 @@ int main(){
 				}
 					
 				else{
-					printf("ID: ");
+					printf("Id: ");
 					scanf("%d", &id);
 					getchar();
-					busca(&l,  id);
+					show_id(id);
 					break;
 				}
 			

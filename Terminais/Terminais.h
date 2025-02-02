@@ -106,7 +106,7 @@ void file_terminal(TERMINAL *t){
 	DIR caminho = ".\\Arquivos\\Terminais\\";
 	//Prefixo do nome do arquivo
 	DIR n = "Terminais";
-	//Vai armazenar a string com o prefixo, caminho e id do transporte
+	//Vai armazenar a string com o prefixo, caminho e id do terminal
 	DIR nome_arquivo;
 	//Responsavel por formatar a string
 	sprintf(nome_arquivo, "%s%s.txt", caminho, n);
@@ -130,6 +130,7 @@ void file_terminal(TERMINAL *t){
 	
 }
 
+//Retorna a quantidade de elementos lendo os arquivos de texto
 int quantidadeTxT() {
     DIR caminho = ".\\Arquivos\\Terminais\\"; // Diretório base
     DIR nome_arquivo;
