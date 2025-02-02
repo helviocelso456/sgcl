@@ -137,7 +137,7 @@ int quantidadeTxT() {
     int c; // Deve ser int para compatibilidade com fgetc()
 
     // 1. Montagem segura do caminho do arquivo
-    snprintf(nome_arquivo, sizeof(nome_arquivo), "%sterminais.txt", caminho);
+    snprintf(nome_arquivo, sizeof(nome_arquivo), "%sTerminais.txt", caminho);
 
     // 2. Abertura do arquivo
     FILE *arquivo = fopen(nome_arquivo, "r");
@@ -239,6 +239,50 @@ void ListagemTerminaisTexto() {
     return;
 }
 
+int BuscaSequencialTxT(int id){
+	
+	int n = 1;
+	int qtd = quantidadeTxT();
+	
+	if(id < 0 || id > qtd){
+		printf("ID inválido!\n");
+		sleep(2);
+		limparTela();
+		return 0;
+	}
+	
+	linha l;
+	DIR caminho = ".\\Arquivos\\Terminais\\";//String que armazena o caminho 
+    DIR nome_arquivo;
+    
+    sprintf(nome_arquivo, "%sTerminais.txt", caminho);
+    
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    if(arquivo == NULL){
+        printf("Nenhum terminal cadastrado !\n");
+        sleep(2);
+        limparTela();
+        return 0;
+    }
+    
+    //enquanto o resultado de fgets for diferente de NULL 
+    while(fgets(l, sizeof(l), arquivo) != NULL){
+    	
+		//Verifica se o ID é igual ao contador
+		if(id == n){
+    		printf("%s", l);//Apresenta a linha caso seja igual
+    		sleep(5);
+    		limparTela();
+			return id;
+		}
+		n++;//Se não for incrementa o contador e repete o laço
+	}
+    	
+    	
+    fclose(arquivo);//fecha o arquivo txt após o uso dele
+    return 0;   
+}
+
 void Menu()
 {
 	printf("\n");
@@ -283,6 +327,15 @@ void MenuRegistar(LISTA *l, TERMINAL t)
     sleep(4);
     limparTela();
    			
+}
+
+void MenuBuscaSequencial()
+{
+	limparTela();
+	int id;
+	printf("Insira o id do terminal: ");
+	scanf("%d",&id);
+	BuscaSequencialTxT(id);	
 }
 
 #endif
