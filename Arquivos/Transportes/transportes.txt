@@ -1,0 +1,1 @@
+Id: 01 | Tipo: Barco | Cap_Max: 10000 | Estado: Aguardando | Terminal de Origem: Indefinido | Terminal de Destino: Indefinido
