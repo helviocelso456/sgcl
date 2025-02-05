@@ -6,7 +6,7 @@
 #include<windows.h>
 
 //Bibliotecas Criadas
-#include "Terminais.h"
+#include "C:\\Users\\GIL\\Desktop\\SGCL_CENTRAL\\00\\Terminais.h"
 //#include "Contentor.h"
 //#include "Vagao.h"
 
@@ -449,6 +449,8 @@ int Main_Transporte(){
 			case '0':
 				printf("Saindo...\n");
 				sleep(2);
+				limpar_tela();
+				Menu_Central();
 				break;
 			
 			default:
@@ -461,8 +463,6 @@ int Main_Transporte(){
 		}
 	}while(op != '0');
 	
-	printf("Obrigado por usar o SGCL.\n");
-	sleep(2);
 	
 	return 123;
 }
