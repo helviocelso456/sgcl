@@ -25,23 +25,23 @@ typedef struct no
 {
    TERMINAL t;
    struct no *prox;
-}NO;
+}NoTerminais;
 
 //Definindo o cabeÃ§a
 typedef struct 
 {
-    NO *cabeca;
-    NO *ultimo; 
-}LISTA;
+    NoTerminais *cabeca;
+    NoTerminais *ultimo; 
+}ListaT;
 
 //Inicializando a lista
-void inicializarTerminal(LISTA *l)
+void inicializarTerminal(ListaT *l)
 {
    l->cabeca = NULL;
    l->ultimo = NULL;
 }
 
-int ListaVazia(LISTA *l)
+int TerminalVazio(ListaT *l)
 {
     if(l->cabeca == NULL)
     {
@@ -52,10 +52,10 @@ int ListaVazia(LISTA *l)
 }
 
 //Definindo a quantidade de terminais
-int qtdTerminais(LISTA *l)
+int qtdTerminais(ListaT *l)
 {
     int qtd = 0;
-    NO *aux = l->cabeca;
+    NoTerminais *aux = l->cabeca;
     while(aux != NULL)
     {
         qtd++;
@@ -66,16 +66,16 @@ int qtdTerminais(LISTA *l)
 }
 
 //Função para limpar a tela
-void limparTela()
+void limparTelaT()
 {
     system("cls");
 }
 
 //Definindo a listagem de terminais
- void ListarTerminais(LISTA *l)
+ void ListarTerminais(ListaT *l)
 {  
-   limparTela();
-   NO *aux = l->cabeca;
+   limparTelaT();
+   NoTerminais *aux = l->cabeca;
    while(aux != NULL)
    {
       printf("Id: %d | Localização: %s, Capacidade Maxima: %d, Cargas Atuais: %d\n",aux->t.id,aux->t.localizacao,aux->t.capacidadeMaxima,aux->t.cargasAtuais);
@@ -85,9 +85,9 @@ void limparTela()
 }
 
 //Definindo a busca sequencial por ids
-int BuscaSequencial(LISTA *l, int id)
+int BuscaSequencial(ListaT *l, int id)
 {
-    NO *aux = l->cabeca;
+    NoTerminais *aux = l->cabeca;
     while(aux != NULL)
    {
       if(id == aux->t.id)
@@ -103,7 +103,7 @@ int BuscaSequencial(LISTA *l, int id)
 //CRIAR ARQUIVO TRANSPORTE
 void file_terminal(TERMINAL *t){
 	//Caminho do arquivo
-	DIR caminho = ".\\Arquivos\\Terminais\\";
+	DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\";
 	//Prefixo do nome do arquivo
 	DIR n = "Terminais";
 	//Vai armazenar a string com o prefixo, caminho e id do terminal
@@ -131,8 +131,8 @@ void file_terminal(TERMINAL *t){
 }
 
 //Retorna a quantidade de elementos lendo os arquivos de texto
-int quantidadeTxT() {
-    DIR caminho = ".\\Arquivos\\Terminais\\"; // Diretório base
+int quantidadeTerminaisTxT() {
+    DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\"; // Diretório base
     DIR nome_arquivo;
     int n = 0;
     int c; // Deve ser int para compatibilidade com fgetc()
@@ -168,14 +168,14 @@ int quantidadeTxT() {
 }
 
 //Registo de terminais de maneira sequencial
-int registoTerminais(LISTA *l, TERMINAL *t)
+int registoTerminais(ListaT *l, TERMINAL *t)
 {  //Para Validar a inicialização
    if (l == NULL) {
         printf("Erro: Lista não inicializada!\n");
         return -1;
     }
    //Criamos no no
-   NO *no = (NO*) malloc(sizeof(NO));
+   NoTerminais *no = (NoTerminais*) malloc(sizeof(NoTerminais));
    //Valida o malloc
     if (no == NULL) {
         printf("Erro ao alocar memoria para o no.\n");
@@ -210,7 +210,7 @@ int registoTerminais(LISTA *l, TERMINAL *t)
 //MOSTRAR Terminais TXT
 void ListagemTerminaisTexto() {
     linha l; // Buffer para armazenar cada linha do arquivo
-    DIR caminho = ".\\Arquivos\\Terminais\\"; // Diretório base para armazenamento
+    DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\"; // Diretório base para armazenamento
     DIR nome_arquivo; // Buffer para montar o caminho completo
 
     // Monta o caminho completo do arquivo (concatena diretório + nome do arquivo)
@@ -240,7 +240,7 @@ void ListagemTerminaisTexto() {
     return;
 }
 
-int BuscaSequencialTxT(int id){
+int BuscaSequencialTerminaisTxT(int id){
 	
 	int n = 1;
 	int qtd = quantidadeTxT();
@@ -248,12 +248,12 @@ int BuscaSequencialTxT(int id){
 	if(id < 0 || id > qtd){
 		printf("ID inválido!\n");
 		sleep(2);
-		limparTela();
+		limparTelaT();
 		return 0;
 	}
 	
 	linha l;
-	DIR caminho = ".\\Arquivos\\Terminais\\";//String que armazena o caminho 
+	DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\";//String que armazena o caminho 
     DIR nome_arquivo;
     
     sprintf(nome_arquivo, "%sTerminais.txt", caminho);
@@ -262,7 +262,7 @@ int BuscaSequencialTxT(int id){
     if(arquivo == NULL){
         printf("Nenhum terminal cadastrado !\n");
         sleep(2);
-        limparTela();
+        limparTelaT();
         return 0;
     }
     
@@ -273,7 +273,7 @@ int BuscaSequencialTxT(int id){
 		if(id == n){
     		printf("%s", l);//Apresenta a linha caso seja igual
     		sleep(5);
-    		limparTela();
+    		limparTelaT();
 			return id;
 		}
 		n++;//Se não for incrementa o contador e repete o laço
@@ -284,8 +284,12 @@ int BuscaSequencialTxT(int id){
     return 0;   
 }
 
-void Menu()
+void MenuTerminais()
 {
+	int op2;
+    TERMINAL t;
+    ListaT l;
+    inicializarTerminal(&l);
 	printf("\n");
     printf("=============================\n");
     printf("============ SGCL ===========\n");
@@ -296,17 +300,37 @@ void Menu()
     printf("[3] - Buscar Terminais\n");
     printf("[4] - Sair\n");
     printf("ESCOLHA: ");
+    scanf("%d",&op2);
+    switch(op2)
+    {
+    	case 1:
+    	MenuRegistarTerminais(&l,t);	
+        break;
+        
+        case 2:
+        ListagemTerminaisTexto();   
+        break;
+        
+        case 3:
+        MenuBuscaSequencialTerminais(); 
+        break;
+        
+        default:
+        printf("Insira uma opção válida");
+		sleep(2);
+		limpar_tela();
+	}
 }
 
-void MenuRegistar(LISTA *l, TERMINAL t)
+void MenuRegistarTerminais(ListaT *l, TERMINAL t)
 {
-	 limparTela();
+	 limparTelaT();
 	 printf("\n=============================\n");
      printf("===== Registo de Terminais =====\n");
      printf("=============================\n\n");
      
     // Atribui ID ao terminal
-    t.id = quantidadeTxT() + 1;
+    t.id = quantidadeTerminaisTxT() + 1;
     
      // Lê a localização
     printf("Insira a localização: ");
@@ -323,16 +347,16 @@ void MenuRegistar(LISTA *l, TERMINAL t)
     // Registra o terminal na lista
     registoTerminais(l, &t);
     //Limpando a tela
-    limparTela();
+    limparTelaT();
     printf("ID: %d | Localização: %s | Capacidade Máxima: %d | Cargas Atuais: %d",t.id,t.localizacao,t.capacidadeMaxima,t.cargasAtuais);
     sleep(4);
-    limparTela();
+    limparTelaT();
    			
 }
 
-void MenuBuscaSequencial()
+void MenuBuscaSequencialTerminais()
 {
-	limparTela();
+	limparTelaT();
 	int id;
 	printf("Insira o id do terminal: ");
 	scanf("%d",&id);

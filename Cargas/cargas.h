@@ -14,17 +14,17 @@ typedef struct
 {
   int id;
   String Descricao;
-  int peso;
+  float peso;
   String estado;
   int origem;
   int destino;	
 }CARGAS;
 
 //Definindo o no
-typedef struct no
+typedef struct noC
 {
    CARGAS c;
-   struct no *prox;	
+   struct noC *prox;	
 }NO;
 
 //Definindo o cabeça
@@ -49,7 +49,7 @@ void limparTela()
 
 //Retorna a quantidade de elementos lendo os arquivos de texto
 int quantidadeTxT() {
-    DIR caminho = ".\\Arquivos\\Cargas\\"; // Diretório base
+    DIR caminho = ".\\Cargas\\Arquivos\\Cargas\\"; // Diretório base
     DIR nome_arquivo;
     int n = 0;
     int c; // Deve ser int para compatibilidade com fgetc()
@@ -87,7 +87,7 @@ int quantidadeTxT() {
 //Função para criar o arquivo de texto
 void file_cargas(CARGAS *c){
 	//Caminho do arquivo
-	DIR caminho = ".\\Arquivos\\Cargas\\";
+	DIR caminho = ".\\Cargas\\Arquivos\\Cargas\\";
 	//Prefixo do nome do arquivo
 	DIR n = "Cargas";
 	//Vai armazenar a string com o prefixo, caminho e id da carga
@@ -103,7 +103,7 @@ void file_cargas(CARGAS *c){
 	printf("\n\n");
 	fprintf(arquivo, "ID %02d| ", c->id);
 	fprintf(arquivo, "Descrição: %s| ", c->Descricao);
-	fprintf(arquivo, "Peso: %d TONELADAS| ", c->peso);
+	fprintf(arquivo, "Peso: %.1f TONELADAS| ", c->peso);
 	fprintf(arquivo, "Estado: %s| ", c->estado);
 	fprintf(arquivo, "Terminal de Origem: %d|", c->origem);
 	fprintf(arquivo, "Terminal de Destino: %d|\n", c->destino);
@@ -158,7 +158,7 @@ int registoCargas(LISTA *l, CARGAS *c)
 //MOSTRAR Cargas TXT
 void ListagemCargasTexto(){
     linha l; // Buffer para armazenar cada linha do arquivo
-    DIR caminho = ".\\Arquivos\\Cargas\\"; // Diretório base para armazenamento
+    DIR caminho = ".\\Cargas\\Arquivos\\Cargas\\"; // Diretório base para armazenamento
     DIR nome_arquivo; // Buffer para montar o caminho completo
 
     // Monta o caminho completo do arquivo (concatena diretório + nome do arquivo)
@@ -202,7 +202,7 @@ int BuscaSequencialTxT(int id){
 	}
 	
 	linha l;
-	DIR caminho = ".\\Arquivos\\Cargas\\";//String que armazena o caminho 
+	DIR caminho = ".\\Cargas\\Arquivos\\Cargas\\";//String que armazena o caminho 
     DIR nome_arquivo;
     
     sprintf(nome_arquivo, "%sCargas.txt", caminho);
@@ -233,8 +233,12 @@ int BuscaSequencialTxT(int id){
     return 0;   
 }
 
-void Menu()
-{
+void MenuCargas()
+{   
+    int op2;
+    CARGAS c;
+    LISTA l;
+    inicializarLista(&l);
 	printf("\n");
     printf("=============================\n");
     printf("============ SGCL ===========\n");
@@ -245,9 +249,29 @@ void Menu()
     printf("[3] - Buscar Cargas\n");
     printf("[4] - Sair\n");
     printf("ESCOLHA: ");
+    scanf("%d",&op2);
+    switch(op2)
+    {
+    	case 1:
+    	MenuRegistarCargas(&l,c);	
+        break;
+        
+        case 2:
+        ListagemCargasTexto();    
+        break;
+        
+        case 3:
+        MenuBuscaSequencialCargas();   
+        break;
+        
+        default:
+        printf("Insira uma opção válida");
+		sleep(2);
+		limpar_tela();
+	}
 }
 
-void MenuRegistar(LISTA *l, CARGAS c)
+void MenuRegistarCargas(LISTA *l, CARGAS c)
 {
 	 limparTela();
 	 printf("\n=============================\n");
@@ -261,7 +285,7 @@ void MenuRegistar(LISTA *l, CARGAS c)
     scanf("%s", &c.Descricao);
     // Insere o peso
     printf("Insira o Peso em Toneladas: ");
-    scanf("%d", &c.peso);
+    scanf("%f", &c.peso);
 	 //Definindo o estado default
 	strcpy(c.estado, "Aguardando");
     // Define a origem e destino default
@@ -273,13 +297,13 @@ void MenuRegistar(LISTA *l, CARGAS c)
     registoCargas(l,&c);
     //Limpando a tela
     limparTela();
-    printf("ID: %d | Descrição: %s | Peso: %d | Estado: %s | Terminal de Origem: %d | Terminal de Destino: %d",c.id,c.Descricao,c.peso,c.estado,c.origem,c.destino);
+    printf("ID: %d | Descrição: %s | Peso: %.1f | Estado: %s | Terminal de Origem: %d | Terminal de Destino: %d",c.id,c.Descricao,c.peso,c.estado,c.origem,c.destino);
     sleep(4);
     limparTela();
    			
 }
 
-void MenuBuscaSequencial()
+void MenuBuscaSequencialCargas()
 {
 	limparTela();
 	int id;

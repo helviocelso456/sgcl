@@ -1,4 +1,4 @@
-#include "cargas.h"
+/*#include "cargas.h"
 
 int main()
 {
@@ -33,7 +33,7 @@ int main()
     	    break;
     	    
     	    default:
-    	    printf("Opção Invalida");
+    	    printf("Opï¿½ï¿½o Invalida");
     	    
 		}
     	
@@ -41,3 +41,4 @@ int main()
     
     return 0;
 }
+*/

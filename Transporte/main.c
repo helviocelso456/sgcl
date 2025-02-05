@@ -1,6 +1,6 @@
-#include "Transporte.h"
+//#include "Transporte.h"
 
-int main(){
+/*int main(){
 	setlocale(LC_ALL, "Portuguese");
 	
 	Transporte A;
@@ -29,7 +29,7 @@ int main(){
 				break;
 				
 			case '3':
-				//Verifica se o arquivo txt está ou não vazio
+				//Verifica se o arquivo txt estï¿½ ou nï¿½o vazio
 				if(quantidade()==0){
 					printf("Nenhum transporte cadastrado !\n");
 					sleep(2);
@@ -51,7 +51,7 @@ int main(){
 				break;
 			
 			default:
-				printf("Tentativa Inválida!\n");
+				printf("Tentativa Invï¿½lida!\n");
 				sleep(1);
 				printf("Tente Novamente.");
 				sleep(1);
@@ -66,3 +66,4 @@ int main(){
 	return 123;
 }
 
+*/

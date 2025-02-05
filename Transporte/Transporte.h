@@ -1,3 +1,5 @@
+#ifndef Transporte_H
+#define Transporte_H
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -6,11 +8,10 @@
 #define BARCO 20000
 #define CAMINHAO 45
 #define COMBOIO 20000
-
+//Definindo TDA
 typedef char String [50];
 typedef char DIR [200];
 typedef char Linha [1000];
-
 //TIPO DE DADO TRANSPORTE
 typedef struct transporte{
     int id;
@@ -90,7 +91,7 @@ void init_estado(Transporte *t){
 //CRIAR ARQUIVO 
 void file_transporte(Transporte *t){
     
-    DIR caminho = ".\\Arquivos\\Transportes\\";//String que armazena o caminho 
+    DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";//String que armazena o caminho 
     DIR nome_arquivo;
     
     sprintf(nome_arquivo, "%stransportes.txt", caminho);
@@ -114,7 +115,7 @@ void file_transporte(Transporte *t){
 int quantidade(){
     
 	//Cria uma String com o caminho do diretório do ficheiro
-    DIR caminho = ".\\Arquivos\\Transportes\\";
+    DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";
     DIR nome_arquivo;
     
 	int n = 0;
@@ -195,6 +196,10 @@ No* criar_No(LSLTrp *l){
 //FUNÇÕES PARA MOSTRAR
 //MOSTRAR MENU
 void Menu(){
+	int op2,id;
+	Transporte t;
+	LSLTrp l;
+	initLista (&l);
     printf("\n");
     printf("=====================================\n");
     printf("============== SGCL =================\n");
@@ -203,16 +208,38 @@ void Menu(){
     printf("== [1] - Cadastrar Transporte      ==\n");
     printf("== [2] - Mostrar Transporte        ==\n");
     printf("== [3] - Buscar Transporte por ID  ==\n");
-    printf("== [0] - Sair                      ==\n");
+    printf("== [0] - Voltar                    ==\n");
     printf("=====================================\n");
     printf("ESCOLHA: ");
+    scanf("%d",&op2);
+    switch(op2)
+    {
+    	case 1:
+    	inserir(&l);	
+        break;
+        
+        case 2:
+        show_t();    
+        break;
+        
+        case 3:
+        printf("Insira o ID: ");
+		scanf("%d",&id);
+		show_id(id);    
+        break;
+        
+        default:
+        printf("Insira uma opção válida");
+		sleep(2);
+		limpar_tela();
+	}
     
 }
 
 //MOSTRAR TODOS TRANSPORTES TXT
 void show_t(){
 	Linha l;
-	DIR caminho = ".\\Arquivos\\Transportes\\";//String que armazena o caminho 
+	DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";//String que armazena o caminho 
     DIR nome_arquivo;
     
     //nome_arquivo recebe o caminho e tbm o ficheiro txt
@@ -250,7 +277,7 @@ void show_id(int id){
 	}
 	
 	Linha l;
-	DIR caminho = ".\\Arquivos\\Transportes\\";//String que armazena o caminho 
+	DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";//String que armazena o caminho 
     DIR nome_arquivo;
     
     sprintf(nome_arquivo, "%stransportes.txt", caminho);
@@ -369,3 +396,5 @@ void busca(LSLTrp *l, int id){
         aux = aux->prox;
     }
 }
+
+#endif
