@@ -1,6 +1,7 @@
 #include "Terminais/Terminais.h"
 #include "Transporte/Transporte.h"
 #include "Cargas/cargas.h"
+#include "Relatorio.h"
 
 int main()
 {
@@ -16,7 +17,8 @@ int main()
 		printf("1 - Terminais\n");
 		printf("2 - Transportes\n");
 		printf("3 - Cargas\n");
-		printf("4 - Encerrar\n");
+		printf("4 - Relatórios\n");
+		printf("5 - Encerrar\n");
 		printf("Escolha: ");
 		scanf("%d",&op);
 		//Switch Case
@@ -35,6 +37,10 @@ int main()
 		  break;
 		  
 		  case 4:
+		  Relatorio ();
+		  break;
+		  
+		  case 5:
 		  i = 0;
 		  printf("----------Muito Obrigada Por Usar o SGCL----------\n");
 		  printf("Sistema Encerrado");
