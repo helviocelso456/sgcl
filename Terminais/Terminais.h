@@ -85,19 +85,33 @@ void limparTelaT()
 }
 
 //Definindo a busca sequencial por ids
-int BuscaSequencial(ListaT *l, int id)
+NoTerminais *BuscaSequencialTerminal(ListaT *l, int id)
 {
+	int qtd = quantidadeTerminaisTxT();
+	if(id < 0 || id > qtd)
+	{
+		printf("Identificador Invalido");
+		return NULL;
+	}
+	
     NoTerminais *aux = l->cabeca;
-    while(aux != NULL)
-   {
-      if(id == aux->t.id)
-      {
-         printf("Id: %d | Localização: %s, Capacidade Maxima: %d, Cargas Atuais:: %d\n",aux->t.id,aux->t.localizacao,aux->t.capacidadeMaxima,aux->t.cargasAtuais);
-         return id;
-      }
+    while(aux != NULL && aux->t.id != id)
+    {
       aux = aux->prox;
-   }
-    return 0;
+    }
+    
+    if(aux->t.id == id)
+    { printf("Terminal Encontrado!!\n");
+      printf("Id: %d | Localização: %s, Capacidade Maxima: %d, Cargas Atuais:: %d\n",aux->t.id,aux->t.localizacao,aux->t.capacidadeMaxima,aux->t.cargasAtuais);
+      return aux;
+	}
+	
+	else
+	{
+		printf("Terminal Não Encontrado");
+	}
+	
+    return NULL;
 }
 //Função para criar o arquivo de texto
 //CRIAR ARQUIVO TRANSPORTE
@@ -393,7 +407,7 @@ void MenuTerminais(ListaT *l)
         break;
         
         case 3:
-        MenuBuscaSequencialTerminais(); 
+        MenuBuscaSequencialTerminais(l); 
         break;
         
         default:
@@ -435,13 +449,13 @@ void MenuRegistarTerminais(ListaT *l, TERMINAL t)
    			
 }
 
-void MenuBuscaSequencialTerminais()
+void MenuBuscaSequencialTerminais(ListaT *l)
 {
 	limparTelaT();
 	int id;
 	printf("Insira o id do terminal: ");
 	scanf("%d",&id);
-	BuscaSequencialTerminaisTxT(id);	
+	BuscaSequencialTerminal(l,id);	
 }
 
 #endif

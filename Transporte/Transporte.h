@@ -306,6 +306,40 @@ int recriarNoTransporte(LSLTrp *l, Transporte t){
     return 1;
 }
 
+No *busca(LSLTrp *l, int id){
+    limpar_tela();
+    int qtd = quantidade(l);
+        
+    if(id < 0 || id > qtd){
+        printf("Identificador Invalido\n");
+        sleep(2);
+        limpar_tela();
+        return NULL;
+    }
+    
+    No *aux = l->cabeca;
+    
+    while(aux != NULL && aux->t.id != id){
+       aux = aux->prox;
+    }
+    
+    if(aux->t.id == id)
+    {
+    	printf("Transporte Encontrado!!\n");
+    	printf("\n\n");
+        printf("ID %d| ", aux->t.id);
+        printf("TIPO: %s, ", aux->t.Tipo);
+        printf("CAPACIDADE MAXIMA: %d TONELADAS, ", aux->t.Cap);
+        printf("ESTADO: %s, ", aux->t.Estado);
+        printf("TERMINAL DE PARTIDA: %d, ", aux->t.Origem);
+        printf("TERMINAL DE CHEGADA: %d", aux->t.Destino);
+        printf("\n");
+        return aux;
+	}
+	
+	return NULL;
+}
+
 
 //FUNÇÕES PARA MOSTRAR
 //MOSTRAR MENU
@@ -337,7 +371,7 @@ void Menu(LSLTrp *lTransporte){
         case 3:
         printf("Insira o ID: ");
 		scanf("%d",&id);
-		show_id(id);    
+		busca(lTransporte, id);   
         break;
         
         default:
@@ -497,31 +531,6 @@ int inserir(LSLTrp *l){
     
     printf("\nTransporte criado com sucesso !");
     return 1;
-}
-
-void busca(LSLTrp *l, int id){
-    
-    int qtd = quantidade(l);
-        
-    
-    if(id < 0 || id > qtd){
-        printf("\nPosição inválida.\n");
-        sleep(2);
-        limpar_tela();
-        return ;
-    }
-    
-    No *aux = l->cabeca;
-    
-    while(aux != NULL){
-        
-        if(id == aux->t.id){
-            printf("Transporte encontrado\n");
-            show_transporte(aux->t);
-            return;
-        }
-        aux = aux->prox;
-    }
 }
 
 #endif

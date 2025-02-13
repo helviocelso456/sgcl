@@ -337,6 +337,37 @@ int recriarNoCargas(LISTA *lCargas, CARGAS c)
 	return 1;
 }
 
+NO *buscaNoCargas(LISTA *lCargas, int id)
+{
+	limpar_tela();
+	int qtd = quantidadeTxT();
+	if(id < 0 || id > qtd)
+	{
+		printf("Identificador Invalido");
+		return NULL;
+	}
+	NO *aux = lCargas->cabeca;
+	while(aux != NULL && aux->c.id != id)
+	{
+		aux = aux->prox;
+	}
+	
+	if(aux->c.id == id)
+	{
+	   printf("Cargas Encontrada!!\n");
+	   printf("ID %d| Descrição: %s, Peso: %.1f, Estado: %s, Terminal de Origem: %d, Terminal de Destino: %d\n",aux->c.id,aux->c.Descricao,aux->c.peso,aux->c.estado,aux->c.origem,aux->c.destino);
+	   return aux;
+	}
+	
+	else
+	{
+		printf("Carga Não Encontrada");
+	}
+	
+	return NULL;
+	
+}
+
 void MenuCargas(LISTA *lCargas)
 {   
     int op2;
@@ -363,7 +394,7 @@ void MenuCargas(LISTA *lCargas)
         break;
         
         case 3:
-        MenuBuscaSequencialCargas();   
+        MenuBuscaSequencialCargas(lCargas);   
         break;
         
         default:
@@ -405,13 +436,13 @@ void MenuRegistarCargas(LISTA *l, CARGAS c)
    			
 }
 
-void MenuBuscaSequencialCargas()
+void MenuBuscaSequencialCargas(LISTA *lCargas)
 {
 	limparTela();
 	int id;
 	printf("Insira o ID da Carga: ");
 	scanf("%d",&id);
-	BuscaSequencialTxT(id);	
+	buscaNoCargas(lCargas,id);	
 }
 
 #endif
