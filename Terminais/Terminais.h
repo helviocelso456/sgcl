@@ -225,6 +225,7 @@ int recriarTerminal(ListaT *lt)
         return 0;
     }
     
+    printf("Terminais importados com sucesso!!\n");
     while(fgets(l, sizeof(l), arquivo) != NULL)
     {
     	if (l[strlen(l) - 1] == '\n') {

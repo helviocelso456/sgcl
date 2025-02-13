@@ -10,8 +10,11 @@ int main()
 	int op;
 	//Nos
 	ListaT lT;
+	LSLTrp lTransporte;
 	inicializarTerminal(&lT);
+	initLista(&lTransporte);
 	recriarTerminal(&lT);
+	recriarTransporte(&lTransporte);
 	while(i != 0)
 	{
 		//Apresentação
@@ -33,7 +36,7 @@ int main()
 		  break;
 		  
 		  case 2:
-		  Menu();
+		  Menu(&lTransporte);
 		  break;
 		  
 		  case 3:

@@ -15,8 +15,8 @@ typedef char Linha [1000];
 //TIPO DE DADO TRANSPORTE
 typedef struct transporte{
     int id;
-    int Cap;
     String Tipo;
+    int Cap;
     String Estado;
     int Origem, Destino;
     //Terminal Origem;
@@ -185,10 +185,131 @@ No* criar_No(LSLTrp *l){
     return novo;
 }
 
+void recriarTransporte(LSLTrp *lT)
+{
+	//Para pegar as linhas do arquivo
+	linha l;
+	//Caminho do arquivo
+	DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";
+	//Vai armazenar o caminho e o nome
+    DIR nome_arquivo;
+    //Transporte
+    Transporte t;
+    //Juntando
+    sprintf(nome_arquivo, "%stransportes.txt", caminho);
+    
+    //Abrindo o arquivo
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    
+    //Verifica se o arquivo foi aberto
+    if(arquivo == NULL)
+	{ 
+	  printf("Erro ao abrir o arquivo"); 
+	  return; 
+	}
+    
+    printf("Transportes importados com sucesso!!\n");
+    //Percorre o arquivo
+    while(fgets(l, sizeof(l), arquivo) != NULL)
+    {   
+       //Caso o caracter do final da linha seja \n ele remove
+    	if (l[strlen(l) - 1] == '\n') {
+            l[strlen(l) - 1] = '\0';
+        }
+        
+        // Dividir a linha usando o delimitador |
+        char *token = strtok(l, "|"); //Pega a primeira parte da linha
+        if(token != NULL)
+		{
+		  t.id = atoi(token);
+		} //Pegou o id
+        
+        token = strtok(NULL, "|"); //Para pegar a outra pare
+        if(token != NULL) 
+		{
+		  strcpy(t.Tipo, token);
+		} //Pegou o tipo
+        
+        token = strtok(NULL, "|"); //Passou para a outra parte
+        if(token != NULL) // Pegou a capacidade
+        {   
+          t.Cap = atoi(token);
+		} //Pegou a capacidade
+		    
+        token = strtok(NULL, "|"); //Passou para a outra parte
+        if(token != NULL)
+		{   
+		  strcpy(t.Estado, token);
+		} // Pegou o estado
+	
+		
+        token = strtok(NULL, "|"); //Passou para a outra parte
+        if(token != NULL)
+        {   
+          t.Origem = atoi(token);
+		} // Pegou a origem
+		
+        token = strtok(NULL, "|"); //Passou para a outra parte
+        if(token != NULL)
+		{   
+		  t.Destino = atoi(token);
+		}
+		// Pegou o destino
+        
+        //Recria a lista
+        recriarNoTransporte(l,t);
+	}
+	
+	//Encerra o arquivo, boas práticas
+	fclose(arquivo);
+}
+
+int recriarNoTransporte(LSLTrp *l, Transporte t){
+   
+   //Para Validar a inicialização
+   if (l == NULL) {
+        printf("Erro: Lista não inicializada!\n");
+        return 0;
+    }
+    
+   No *novo = (No*) malloc(sizeof(No));
+   if(novo == NULL)
+   {
+   	 printf("Erro ao alocar memória");
+   	 return 0;
+   }
+   novo->prox = NULL; //Evita comportamentos inesperados
+   novo->t = t; //Adiciona o conteudo
+   
+   //Quer dizer que a lista esta vazia
+   if(l->cabeca == NULL)
+   {
+   	  l->cabeca = novo;
+   }
+   
+   else
+   {  
+      //Usamos um auxiliar para pegar o ultimo elemento
+   	  No *aux = l->cabeca;
+   	  
+   	  //Percorrendo a lista
+   	  while(aux->prox != NULL)
+   	  {
+   	  	  aux = aux->prox;
+	  }
+	  
+	  //Após percorrer
+	  aux->prox = novo; //Adiciona na ultima pos
+   	  
+   }
+    
+    return 1;
+}
+
 
 //FUNÇÕES PARA MOSTRAR
 //MOSTRAR MENU
-void Menu(){
+void Menu(LSLTrp *lTransporte){
 	int op2,id;
 	Transporte t;
 	LSLTrp l;
@@ -212,7 +333,7 @@ void Menu(){
         break;
         
         case 2:
-        show_t();    
+        show_all(lTransporte);    
         break;
         
         case 3:

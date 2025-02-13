@@ -1,2 +1,2 @@
 01|Barco|20000|Aguardando|0|0
-02|Caminhao|45|Aguardando|0|0
+02|Caminhao|4500|Aguardando|0|0
