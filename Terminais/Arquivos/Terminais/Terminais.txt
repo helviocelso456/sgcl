@@ -1,4 +1,1 @@
-ID 01| TIPO: Luanda| CAPACIDADE MAXIMA: 200 TONELADAS| Número de Cargas Atuais: 0|
-ID 02| TIPO: Benguela| CAPACIDADE MAXIMA: 400 TONELADAS| Número de Cargas Atuais: 0|
-ID 03| TIPO: Moxico| CAPACIDADE MAXIMA: 500 TONELADAS| Número de Cargas Atuais: 0|
-ID 04| TIPO: Cabinda| CAPACIDADE MAXIMA: 500 TONELADAS| Número de Cargas Atuais: 0|
+01|Lobito|3000|0

@@ -117,10 +117,10 @@ void file_terminal(TERMINAL *t){
 	}
 	//Começa a escrita do documento	
 	printf("\n\n");
-	fprintf(arquivo, "ID %02d| ", t->id);
-	fprintf(arquivo, "TIPO: %s| ", t->localizacao);
-	fprintf(arquivo, "CAPACIDADE MAXIMA: %d TONELADAS| ", t->capacidadeMaxima);
-	fprintf(arquivo, "Número de Cargas Atuais: %d|\n", t->cargasAtuais);
+	fprintf(arquivo, "%02d|", t->id);
+	fprintf(arquivo, "%s|", t->localizacao);
+	fprintf(arquivo, "%d|", t->capacidadeMaxima);
+	fprintf(arquivo, "%d\n", t->cargasAtuais);
 	
 	
 	printf("Arquivo de Texto criado com sucesso.");
@@ -207,6 +207,86 @@ int registoTerminais(ListaT *l, TERMINAL *t)
    return 0;
 }
 
+int recriarTerminal(ListaT *lt)
+{
+	linha l; // Buffer para armazenar cada linha do arquivo
+    DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\"; // Diretório base para armazenamento
+    DIR nome_arquivo; // Buffer para montar o caminho completo
+    TERMINAL t;
+    // Monta o caminho completo do arquivo (concatena diretório + nome do arquivo)
+    snprintf(nome_arquivo, sizeof(nome_arquivo), "%sTerminais.txt", caminho);
+    
+    // Tenta abrir o arquivo em modo leitura (r = read)
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    
+    // Verifica se houve erro na abertura
+    if(arquivo == NULL) {
+        printf("Erro ao abrir o arquivo de terminais!\n");
+        return 0;
+    }
+    
+    while(fgets(l, sizeof(l), arquivo) != NULL)
+    {
+    	if (l[strlen(l) - 1] == '\n') {
+            l[strlen(l) - 1] = '\0';
+        }
+        
+        // Dividir a linha usando o delimitador |
+        char *token = strtok(l, "|");
+        if (token != NULL) t.id = atoi(token);
+        token = strtok(NULL, "|");
+        if (token != NULL) strcpy(t.localizacao,token);
+        token = strtok(NULL, "|");
+        if (token != NULL) t.capacidadeMaxima = atoi(token);
+        token = strtok(NULL, "|");
+        if (token != NULL) t.cargasAtuais = atoi(token);
+        //Recria a Lista
+        adicionarNoTerminal(lt,&t);
+	}
+	
+	//Boas praticas
+	fclose(arquivo);
+    
+    return 1;
+    
+}
+
+//Função para recriar a lista
+int adicionarNoTerminal(ListaT *l, TERMINAL *t)
+{  //Para Validar a inicialização
+   if (l == NULL) {
+        printf("Erro: Lista não inicializada!\n");
+        return -1;
+    }
+   //Criamos no no
+   NoTerminais *no = (NoTerminais*) malloc(sizeof(NoTerminais));
+   //Valida o malloc
+    if (no == NULL) {
+        printf("Erro ao alocar memoria para o no.\n");
+        return -1;
+    }
+   //Definimos o prox do no como null pra evitar certos comportamentos
+   no->prox = NULL;
+   //Atribuindo o terminal ao no
+   no->t = *t;
+   if(l->cabeca == NULL)
+   {
+      //O cabeça vai ser igual ao ultimo elemento
+      l->cabeca = no;
+      l->ultimo = no;  
+   }
+
+   else
+   {
+       //Primeiro definimos que o prox do ant e o no
+       l->ultimo->prox = no;
+       //Depois definimos que o ultimo e o no
+       l->ultimo = no;
+   }
+
+   return 0;
+}
+
 //MOSTRAR Terminais TXT
 void ListagemTerminaisTexto() {
     linha l; // Buffer para armazenar cada linha do arquivo
@@ -227,7 +307,8 @@ void ListagemTerminaisTexto() {
     
     // Imprime cabeçalho para organização
     printf("\n====== LISTAGEM DE TERMINAIS ======\n");
-    
+    //Exibe o nome dos atributos
+    printf("ID|Localização|Capacidade Máxima|Cargas Atuais\n"); 
     // Lê o arquivo linha por linha até o final (EOF)
     while(fgets(l, sizeof(l), arquivo) != NULL) {
         printf("%s", l); // Imprime cada linha do arquivo
@@ -243,7 +324,7 @@ void ListagemTerminaisTexto() {
 int BuscaSequencialTerminaisTxT(int id){
 	
 	int n = 1;
-	int qtd = quantidadeTxT();
+	int qtd = quantidadeTerminaisTxT();
 	
 	if(id < 0 || id > qtd){
 		printf("ID inválido!\n");
@@ -266,7 +347,8 @@ int BuscaSequencialTerminaisTxT(int id){
         return 0;
     }
     
-    //enquanto o resultado de fgets for diferente de NULL 
+    //enquanto o resultado de fgets for diferente de NULL
+	printf("ID|Localização|Capacidade Máxima|Cargas Atuais\n"); 
     while(fgets(l, sizeof(l), arquivo) != NULL){
     	
 		//Verifica se o ID é igual ao contador
@@ -284,7 +366,7 @@ int BuscaSequencialTerminaisTxT(int id){
     return 0;   
 }
 
-void MenuTerminais()
+void MenuTerminais(ListaT *l2)
 {
 	int op2;
     TERMINAL t;
@@ -308,7 +390,8 @@ void MenuTerminais()
         break;
         
         case 2:
-        ListagemTerminaisTexto();   
+        //ListagemTerminaisTexto();
+		ListarTerminais(l2);   
         break;
         
         case 3:
@@ -360,7 +443,7 @@ void MenuBuscaSequencialTerminais()
 	int id;
 	printf("Insira o id do terminal: ");
 	scanf("%d",&id);
-	BuscaSequencialTxT(id);	
+	BuscaSequencialTerminaisTxT(id);	
 }
 
 #endif

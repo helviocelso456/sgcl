@@ -18,7 +18,7 @@ typedef struct transporte{
     int Cap;
     String Tipo;
     String Estado;
-    String Origem, Destino;
+    int Origem, Destino;
     //Terminal Origem;
     //Terminal Destino;
 }Transporte;
@@ -102,7 +102,7 @@ void file_transporte(Transporte *t){
         return;
     }
         
-    fprintf(arquivo ,"Id: %02d | Tipo: %s | Cap_Max: %d | Estado: %s | Terminal de Origem: %s | Terminal de Destino: %s\n", t->id, t->Tipo, t->Cap, t->Estado, t->Origem, t->Destino);
+    fprintf(arquivo ,"%02d|%s|%d|%s|%d|%d\n", t->id, t->Tipo, t->Cap, t->Estado, t->Origem, t->Destino);
     
     //printf("Arquivo de Texto criado com sucesso.");
     fclose(arquivo);
@@ -165,17 +165,10 @@ int criar_Transporte (Transporte *t){
     
 	//Coloca o estado por default em "Aguardando"
     init_estado(t);
-	
-    printf("Terminal de Partida: ");
-    scanf("%[^\n]s", t->Origem);
-    getchar();
-    
-    printf("Terminal de Chegada: ");
-    scanf("%[^\n]s", t->Destino);
-    getchar();
-
+    //Define a origem e destino default que é 0
+	t->Origem = 0;
+	t->Destino = 0;
     file_transporte(t);
-    
     return 1;       
 }
 
@@ -254,7 +247,7 @@ void show_t(){
         limpar_tela();
         return;
     }
-    
+    printf("ID|Tipo|Capacidade|Estado|Origem|Destino\n"); 
     //enquanto o resultado de fgets for diferente de NULL 
     while(fgets(l, sizeof(l), arquivo) != NULL)
     	printf("%s", l);//apresente o resultado da linha
@@ -264,7 +257,7 @@ void show_t(){
 }
 
 //MOSTRAR TRANSPORTES por ID TXT
-void show_id(int id){
+int show_id(int id){
 	
 	int n = 1;
 	int qtd = quantidade();
@@ -273,7 +266,7 @@ void show_id(int id){
 		printf("ID inválido!\n");
 		sleep(2);
 		limpar_tela();
-		return;
+		return 0;
 	}
 	
 	Linha l;
@@ -287,9 +280,10 @@ void show_id(int id){
         printf("Nenhum transporte cadastrado !\n");
         sleep(2);
         limpar_tela();
-        return;
+        return 0;
     }
     
+    printf("ID|Tipo|Capacidade|Estado|Origem|Destino\n");
     //enquanto o resultado de fgets for diferente de NULL 
     while(fgets(l, sizeof(l), arquivo) != NULL){
     	
@@ -298,14 +292,14 @@ void show_id(int id){
     		printf("%s", l);//Apresenta a linha caso seja igual
     		sleep(5);
     		limpar_tela();
-			return;
+			return id;
 		}
 		n++;//Se não for incrementa o contador e repete o laço
 	}
     	
     	
     fclose(arquivo);//fecha o arquivo txt após o uso dele
-    return;   
+    return 0;   
 }
 
 //MOSTRAR TRANSPORTE

@@ -8,6 +8,10 @@ int main()
 	setlocale(LC_ALL,"Portuguese");
 	int i = 1;
 	int op;
+	//Nos
+	ListaT lT;
+	inicializarTerminal(&lT);
+	recriarTerminal(&lT);
 	while(i != 0)
 	{
 		//Apresentação
@@ -25,7 +29,7 @@ int main()
 		switch(op)
 		{
 		  case 1:
-		  MenuTerminais();
+		  MenuTerminais(&lT);
 		  break;
 		  
 		  case 2:
