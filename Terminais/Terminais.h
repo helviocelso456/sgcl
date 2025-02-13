@@ -225,7 +225,6 @@ int recriarTerminal(ListaT *lt)
         return 0;
     }
     
-    printf("Terminais importados com sucesso!!\n");
     while(fgets(l, sizeof(l), arquivo) != NULL)
     {
     	if (l[strlen(l) - 1] == '\n') {
@@ -367,12 +366,10 @@ int BuscaSequencialTerminaisTxT(int id){
     return 0;   
 }
 
-void MenuTerminais(ListaT *l2)
+void MenuTerminais(ListaT *l)
 {
 	int op2;
     TERMINAL t;
-    ListaT l;
-    inicializarTerminal(&l);
 	printf("\n");
     printf("=============================\n");
     printf("============ SGCL ===========\n");
@@ -387,12 +384,12 @@ void MenuTerminais(ListaT *l2)
     switch(op2)
     {
     	case 1:
-    	MenuRegistarTerminais(&l,t);	
+    	MenuRegistarTerminais(l,t);	
         break;
         
         case 2:
         //ListagemTerminaisTexto();
-		ListarTerminais(l2);   
+		ListarTerminais(l);   
         break;
         
         case 3:

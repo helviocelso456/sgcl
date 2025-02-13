@@ -2,21 +2,25 @@
 #include "Transporte/Transporte.h"
 #include "Cargas/cargas.h"
 #include "Relatorio.h"
-
 int main()
 {
-	setlocale(LC_ALL,"Portuguese");
-	int i = 1;
-	int op;
-	//Nos
+	//Nós
 	ListaT lT;
 	LSLTrp lTransporte;
-	inicializarTerminal(&lT);
-	initLista(&lTransporte);
-	recriarTerminal(&lT);
-	recriarTransporte(&lTransporte);
+	LISTA lCargas;
+	//Locale
+	setlocale(LC_ALL,"Portuguese");
+	//Outros
+	int i = 1;
+	int op;
 	while(i != 0)
 	{
+		inicializarTerminal(&lT);
+	    initLista(&lTransporte);
+	    inicializarLista(&lCargas);
+	    recriarTerminal(&lT);
+	    recriarTransporte(&lTransporte);
+	    recriarCargas(&lCargas);
 		//Apresentação
 		printf("----------Bem Vindo ao SGCL - Sistema de Gestão do Corredor do Lobito----------\n");
 		printf("--------------------Insira a Opção Desejada--------------------\n");
@@ -40,7 +44,7 @@ int main()
 		  break;
 		  
 		  case 3:
-		  MenuCargas();
+		  MenuCargas(&lCargas);
 		  break;
 		  
 		  case 4:

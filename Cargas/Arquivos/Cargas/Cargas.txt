@@ -1,0 +1,3 @@
+01|Vidro|3,0|Aguardando|0|0
+02|Botijas|4,5|Aguardando|0|0
+03|Adubo|1,0|Aguardando|0|0

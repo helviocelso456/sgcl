@@ -101,12 +101,12 @@ void file_cargas(CARGAS *c){
 	}
 	//Começa a escrita do documento	
 	printf("\n\n");
-	fprintf(arquivo, "ID %02d| ", c->id);
-	fprintf(arquivo, "Descrição: %s| ", c->Descricao);
-	fprintf(arquivo, "Peso: %.1f TONELADAS| ", c->peso);
-	fprintf(arquivo, "Estado: %s| ", c->estado);
-	fprintf(arquivo, "Terminal de Origem: %d|", c->origem);
-	fprintf(arquivo, "Terminal de Destino: %d|\n", c->destino);
+	fprintf(arquivo, "%02d|", c->id);
+	fprintf(arquivo, "%s|", c->Descricao);
+	fprintf(arquivo, "%.1f|", c->peso);
+	fprintf(arquivo, "%s|", c->estado);
+	fprintf(arquivo, "%d|", c->origem);
+	fprintf(arquivo, "%d\n", c->destino);
 	
 	
 	printf("Arquivo de Texto criado com sucesso.");
@@ -114,6 +114,17 @@ void file_cargas(CARGAS *c){
 	fclose(arquivo);
 	return;
 	
+}
+
+void ListarCargas(LISTA *l)
+{
+	limpar_tela();
+	NO *aux = l->cabeca;
+	while(aux != NULL)
+	{
+		printf("ID %d| Descrição: %s, Peso: %.1f, Estado: %s, Terminal de Origem: %d, Terminal de Destino: %d\n",aux->c.id,aux->c.Descricao,aux->c.peso,aux->c.estado,aux->c.origem,aux->c.destino);
+		aux = aux->prox;
+	}
 }
 
 //Registando Elementos
@@ -233,12 +244,103 @@ int BuscaSequencialTxT(int id){
     return 0;   
 }
 
-void MenuCargas()
+int recriarCargas(LISTA *lCargas)
+{
+	linha l; //Vai pegar as linhas
+	DIR caminho = ".\\Cargas\\Arquivos\\Cargas\\";//String que armazena o caminho 
+	DIR nome_arquivo; //Vair armazenar o caminho e o nome;
+	CARGAS c;
+	//Vai mandar tudo pra variável nome_arquivo
+	sprintf(nome_arquivo, "%sCargas.txt", caminho);
+    //Abre o arquivo de texto em modo de leitura
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    //Validando
+    if(arquivo == NULL)
+    {
+       printf("Não foi possível abrir o arquivo");
+       return 0;
+	}
+	
+	while(fgets(l, sizeof(l), arquivo) != NULL)
+	{
+		//Remove o \n
+		if (l[strlen(l) - 1] == '\n') {
+            l[strlen(l) - 1] = '\0';
+        }
+        
+        // Dividir a linha usando o delimitador |
+        char *token = strtok(l, "|");
+         //Atribuindo o id;
+         if(token != NULL) c.id = atoi(token);
+         
+         //Passando pro proximo
+         token = strtok(NULL, "|");
+         if(token != NULL) strcpy(c.Descricao, token); 
+         
+         //Passando pro proximo
+         token = strtok(NULL, "|");
+         if(token != NULL) c.peso = atof(token);
+         
+         //Passando pro proximo
+         token = strtok(NULL, "|");
+         if(token != NULL) strcpy(c.estado,token);
+         
+         //Passando pro proximo
+         token = strtok(NULL, "|");
+         if(token != NULL) c.origem = atoi(token);
+         
+         //Passando pro proximo
+         token = strtok(NULL, "|");
+         if(token != NULL) c.destino = atoi(token);
+         
+         //Cria novamente o NO
+         recriarNoCargas(lCargas, c);
+	}
+	
+	//Boas Praticas
+	fclose(arquivo);
+	return 1;
+}
+
+int recriarNoCargas(LISTA *lCargas, CARGAS c)
+{
+	if(lCargas == NULL)
+	{
+		printf("Lista não inicializada");
+		return 0;
+	}
+	
+	NO *novo = (NO*) malloc(sizeof(NO));
+	if(novo == NULL)
+	{ 
+	   printf("Erro ao alocar a memoria");
+	   return 0;
+	}
+	
+	novo->prox = NULL;
+	novo->c = c;
+	
+	if(lCargas->cabeca == NULL)
+	{
+		//Caso a lista esteja vazia
+		lCargas->cabeca = novo;
+		lCargas->ultimo = novo;
+	}
+	
+	else
+	{
+		//Inserimos como o ultimo elemento
+		lCargas->ultimo->prox = novo;
+		lCargas->ultimo = novo;
+	}
+	
+	return 1;
+}
+
+void MenuCargas(LISTA *lCargas)
 {   
     int op2;
     CARGAS c;
-    LISTA l;
-    inicializarLista(&l);
 	printf("\n");
     printf("=============================\n");
     printf("============ SGCL ===========\n");
@@ -253,11 +355,11 @@ void MenuCargas()
     switch(op2)
     {
     	case 1:
-    	MenuRegistarCargas(&l,c);	
+    	MenuRegistarCargas(lCargas,c);	
         break;
         
         case 2:
-        ListagemCargasTexto();    
+        ListarCargas(lCargas);   
         break;
         
         case 3:

@@ -38,7 +38,7 @@ typedef struct {
 
 //INICIALIA LISTA
 void initLista(LSLTrp *l){
-    l->cabeca == NULL;
+    l->cabeca = NULL;
 }
 
 //FUNCAO VAZIA
@@ -47,6 +47,8 @@ int vazia(LSLTrp *l){
         printf("A lista está vazia !\n");
         return 1;
     }
+    
+    return 0;
 }
 
 //LIMPAR TELA
@@ -157,7 +159,6 @@ int criar_Transporte (Transporte *t){
     getchar();
     
     if(validar_tipo(t) == 0){
-        printf("Transporte inválido!\n");
         printf("Transportes disponivéis:");
         printf("\n  -[Barco]\n  -[Comboio]\n  -[Caminhao]\n");
         goto T;
@@ -188,7 +189,7 @@ No* criar_No(LSLTrp *l){
 void recriarTransporte(LSLTrp *lT)
 {
 	//Para pegar as linhas do arquivo
-	linha l;
+	Linha l;
 	//Caminho do arquivo
 	DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";
 	//Vai armazenar o caminho e o nome
@@ -208,7 +209,6 @@ void recriarTransporte(LSLTrp *lT)
 	  return; 
 	}
     
-    printf("Transportes importados com sucesso!!\n");
     //Percorre o arquivo
     while(fgets(l, sizeof(l), arquivo) != NULL)
     {   
@@ -257,7 +257,7 @@ void recriarTransporte(LSLTrp *lT)
 		// Pegou o destino
         
         //Recria a lista
-        recriarNoTransporte(l,t);
+        recriarNoTransporte(lT,t);
 	}
 	
 	//Encerra o arquivo, boas práticas
@@ -312,8 +312,6 @@ int recriarNoTransporte(LSLTrp *l, Transporte t){
 void Menu(LSLTrp *lTransporte){
 	int op2,id;
 	Transporte t;
-	LSLTrp l;
-	initLista (&l);
     printf("\n");
     printf("=====================================\n");
     printf("============== SGCL =================\n");
@@ -329,7 +327,7 @@ void Menu(LSLTrp *lTransporte){
     switch(op2)
     {
     	case 1:
-    	inserir(&l);	
+    	inserir(lTransporte);	
         break;
         
         case 2:
@@ -428,12 +426,12 @@ void show_transporte(Transporte t){
 	
 
     printf("\n\n");
-    printf("ID [%02d]\n", t.id);
-    printf("TIPO: %s\n", t.Tipo);
-    printf("CAPACIDADE MAXIMA: %d TONELADAS\n", t.Cap);
-    printf("ESTADO: %s\n", t.Estado);
-    printf("TERMINAL DE PARTIDA: %s\n", t.Origem);
-    printf("TERMINAL DE CHEGADA: %s\n", t.Destino);
+    printf("ID %d | ", t.id);
+    printf("TIPO: %s |", t.Tipo);
+    printf("CAPACIDADE MAXIMA: %d TONELADAS| ", t.Cap);
+    printf("ESTADO: %s | ", t.Estado);
+    printf("TERMINAL DE PARTIDA: %d | ", t.Origem);
+    printf("TERMINAL DE CHEGADA: %d | ", t.Destino);
     printf("\n");
 }
 
@@ -469,9 +467,10 @@ void show_all(LSLTrp *l){
     }
     
     No *aux = l->cabeca;
-    while(aux->prox != NULL){
+    while(aux != NULL)
+	{
+    	show_transporte(aux->t);
         aux = aux->prox;
-        show_transporte(aux->t);
     }
 }
 
@@ -480,8 +479,21 @@ void show_all(LSLTrp *l){
 int inserir(LSLTrp *l){
     No *novo = (No*)malloc(sizeof(No));
     novo = criar_No(l);
-    novo->prox = l->cabeca;
-    l->cabeca = novo;
+    if(l->cabeca == NULL)
+    {
+    	l->cabeca = novo;
+	}
+	
+	else
+	{
+		No *aux = l->cabeca;
+		while(aux != NULL)
+		{
+			aux = aux->prox;
+		}
+		
+		aux = novo;
+	}
     
     printf("\nTransporte criado com sucesso !");
     return 1;
