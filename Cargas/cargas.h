@@ -368,6 +368,45 @@ NO *buscaNoCargas(LISTA *lCargas, int id)
 	
 }
 
+//Update das cargas
+void update_cargas(LISTA *lCargas){
+	//Caminho do arquivo
+	DIR caminho = ".\\Cargas\\Arquivos\\Cargas\\";
+	//Prefixo do nome do arquivo
+	DIR n = "Cargas";
+	//Vai armazenar a string com o prefixo, caminho e id da carga
+	DIR nome_arquivo;
+	//Responsavel por formatar a string
+	sprintf(nome_arquivo, "%s%s.txt", caminho, n);
+	//Tipo file para criar o documento em modo de escrita
+	FILE *arquivo = fopen(nome_arquivo, "w");
+	if(arquivo == NULL){
+		printf("Erro ao abrir o arquivo !\n");
+		return;
+	}
+	
+	//No auxiliar
+	NO *aux = lCargas->cabeca;
+	//Começa a escrita do documento	
+	while(aux != NULL)
+	{
+     printf("\n\n");
+	 fprintf(arquivo, "%02d|", aux->c.id);
+	 fprintf(arquivo, "%s|", aux->c.Descricao);
+	 fprintf(arquivo, "%.1f|", aux->c.peso);
+	 fprintf(arquivo, "%s|", aux->c.estado);
+	 fprintf(arquivo, "%d|", aux->c.origem);
+	 fprintf(arquivo, "%d\n", aux->c.destino);
+	 aux = aux->prox;
+	}
+	
+	
+	printf("Cargas Atualizadas Com Sucesso.\n");
+	//Encerra do documento
+	fclose(arquivo);
+	
+}
+
 void MenuCargas(LISTA *lCargas)
 {   
     int op2;

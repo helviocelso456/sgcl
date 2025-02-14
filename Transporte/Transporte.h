@@ -112,6 +112,31 @@ void file_transporte(Transporte *t){
     
 }
 
+void update_transporte(LSLTrp *l){
+    
+    DIR caminho = ".\\Transporte\\Arquivos\\Transportes\\";//String que armazena o caminho 
+    DIR nome_arquivo;
+    
+    sprintf(nome_arquivo, "%stransportes.txt", caminho);
+    
+    FILE *arquivo = fopen(nome_arquivo, "w");
+    if(arquivo == NULL){
+        //printf("Erro ao abrir o arquivo !\n");
+        return;
+    }
+        
+    //Auxiliar
+    No *aux = l->cabeca;
+    while( aux != NULL)
+    {
+    	fprintf(arquivo ,"%02d|%s|%d|%s|%d|%d\n", aux->t.id, aux->t.Tipo, aux->t.Cap, aux->t.Estado, aux->t.Origem, aux->t.Destino);
+    	aux = aux->prox;
+	}
+    
+    fclose(arquivo);
+    printf("Transportes Atualizados com sucesso.\n");    
+}
+
 
 //IMPEDE A REPETIÇÃO NO ID E CALCULA A QTD APARTIR DO Nº DE LINHAS DO FICHEIRO
 int quantidade(){

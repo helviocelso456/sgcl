@@ -114,7 +114,7 @@ NoTerminais *BuscaSequencialTerminal(ListaT *l, int id)
     return NULL;
 }
 //Função para criar o arquivo de texto
-//CRIAR ARQUIVO TRANSPORTE
+//CRIAR ARQUIVO TERMINAL
 void file_terminal(TERMINAL *t){
 	//Caminho do arquivo
 	DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\";
@@ -141,6 +141,41 @@ void file_terminal(TERMINAL *t){
 	//Encerra do documento
 	fclose(arquivo);
 	return;
+	
+}
+
+void update_terminal(ListaT *lT){
+	//Caminho do arquivo
+	DIR caminho = ".\\Terminais\\Arquivos\\Terminais\\";
+	//Prefixo do nome do arquivo
+	DIR n = "Terminais";
+	//Vai armazenar a string com o prefixo, caminho e id do terminal
+	DIR nome_arquivo;
+	//Responsavel por formatar a string
+	sprintf(nome_arquivo, "%s%s.txt", caminho, n);
+	//Tipo file para criar o documento em modo de escrita
+	FILE *arquivo = fopen(nome_arquivo, "w");
+	if(arquivo == NULL){
+		printf("Erro ao abrir o arquivo !\n");
+		return;
+	}
+	//Ponteiro auxiliar
+	NoTerminais *aux = lT->cabeca;
+	//Começa a escrita do documento	
+	while(aux != NULL)
+	{
+	  printf("\n\n");
+	  fprintf(arquivo, "%02d|", aux->t.id);
+	  fprintf(arquivo, "%s|", aux->t.localizacao);
+	  fprintf(arquivo, "%d|", aux->t.capacidadeMaxima);
+	  fprintf(arquivo, "%d\n", aux->t.cargasAtuais);
+	  aux = aux->prox;
+	}
+	
+	
+	printf("Terminais Atualizados Com sucesso.\n");
+	//Encerra do documento
+	fclose(arquivo);
 	
 }
 

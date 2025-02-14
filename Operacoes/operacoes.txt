@@ -1,0 +1,2 @@
+Armazenamento|1|1
+Carregamento|1|1
